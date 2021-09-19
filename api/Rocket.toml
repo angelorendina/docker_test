@@ -1,0 +1,6 @@
+[default]
+address = "0.0.0.0"
+port = 5000
+
+[global.databases]
+postgres_db = { url = "postgres://postgres_user:postgres_password@db.docker_test:5432" }

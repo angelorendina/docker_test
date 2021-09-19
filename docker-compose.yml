@@ -1,0 +1,40 @@
+version: "3.9"
+
+networks:
+  new:
+    driver: bridge
+
+services:
+  api:
+    image: rust
+    working_dir: "/api"
+    ports:
+      - "5000:5000"
+    expose:
+      - "5000"
+    volumes:
+      - "./api:/api:z"
+    environment:
+      - CARGO_HOME=/api/.crates
+    command: ["cargo", "run"]
+    depends_on:
+      - db
+    networks:
+      new:
+        aliases:
+          - api.docker_test
+
+  db:
+    image: postgres
+    ports:
+      - "5423:5432"
+    expose:
+      - "5432"
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: postgres_password
+      POSTGRES_USER: postgres_user
+    networks:
+      new:
+        aliases:
+          - db.docker_test
